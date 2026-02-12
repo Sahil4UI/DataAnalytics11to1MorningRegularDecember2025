@@ -1,0 +1,182 @@
+Data Analysis:
+1.Data Collection=>sql,excel,pdf,txt,html etc
+2.Data Cleaning=>sql,python,excel
+3.Data Analysis=>data=>insights
+4.Data Visualization=>excel,python,powerBI
+
+SQL->Structured Query Language
+MYSQL->Application
+
+Installation:
+1.go to google and search “mysql community installer”
+
+refer to https://www.geeksforgeeks.org/mysql/how-to-install-mysql-in-windows/
+for step by step installation
+
+Then open “mysql command line client”,”workbench”
+
+FBMS - File Base Management System
+DBMS - Data Base management system - MYSQL
+
+SQL STATEMENTS:
+1.DML - Data Manipulation Language
+insert , update,delete -data
+2.DDL - Data Definition Language - changes-table
+create,alter,drop
+3.DCL - Data CONTROL language
+4.TCL -Transaction Control Language
+
+(base) sahil@MacBookAir ~ % mysql -u root
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 9.4.0 Homebrew
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database ourcompany;
+Query OK, 1 row affected (0.017 sec)
+
+mysql> create database ourcompany;
+ERROR 1007 (HY000): Can't create database 'ourcompany'; database exists
+mysql> 
+mysql> use ourcompany;
+Database changed
+mysql> 
+mysql> create table emp(emp_id int primary key ,emp_name text,emp_doj date,salary int);
+Query OK, 0 rows affected (0.037 sec)
+
+mysql> insert into emp values (101,"Ravi","2020-05-05",35000);
+Query OK, 1 row affected (0.013 sec)
+
+mysql> insert into emp values (101,"Ravi","2020-05-05",35000);
+ERROR 1062 (23000): Duplicate entry '101' for key 'emp.PRIMARY'
+mysql> 
+mysql> insert into emp values (102,"Rahul","2020-05-05",15000),
+    -> (103,"Tanu","2025-01-01",34000),
+    -> (104,"Aman","2026-10-10",25000);
+Query OK, 3 rows affected (0.005 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp;
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    101 | Ravi     | 2020-05-05 |  35000 |
+|    102 | Rahul    | 2020-05-05 |  15000 |
+|    103 | Tanu     | 2025-01-01 |  34000 |
+|    104 | Aman     | 2026-10-10 |  25000 |
++--------+----------+------------+--------+
+4 rows in set (0.007 sec)
+
+mysql> select * from emp where emp_id=101;
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    101 | Ravi     | 2020-05-05 |  35000 |
++--------+----------+------------+--------+
+1 row in set (0.004 sec)
+
+mysql> select * from emp where emp_id between 101 and 103;
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    101 | Ravi     | 2020-05-05 |  35000 |
+|    102 | Rahul    | 2020-05-05 |  15000 |
+|    103 | Tanu     | 2025-01-01 |  34000 |
++--------+----------+------------+--------+
+3 rows in set (0.004 sec)
+
+mysql> select * from emp where emp_id in (101,102,104);
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    101 | Ravi     | 2020-05-05 |  35000 |
+|    102 | Rahul    | 2020-05-05 |  15000 |
+|    104 | Aman     | 2026-10-10 |  25000 |
++--------+----------+------------+--------+
+3 rows in set (0.001 sec)
+
+mysql> select * from emp order by salary ;
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    102 | Rahul    | 2020-05-05 |  15000 |
+|    104 | Aman     | 2026-10-10 |  25000 |
+|    103 | Tanu     | 2025-01-01 |  34000 |
+|    101 | Ravi     | 2020-05-05 |  35000 |
++--------+----------+------------+--------+
+4 rows in set (0.002 sec)
+
+mysql> select * from emp order by salary asc ;
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    102 | Rahul    | 2020-05-05 |  15000 |
+|    104 | Aman     | 2026-10-10 |  25000 |
+|    103 | Tanu     | 2025-01-01 |  34000 |
+|    101 | Ravi     | 2020-05-05 |  35000 |
++--------+----------+------------+--------+
+4 rows in set (0.001 sec)
+
+mysql> select * from emp order by salary desc ;
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    101 | Ravi     | 2020-05-05 |  35000 |
+|    103 | Tanu     | 2025-01-01 |  34000 |
+|    104 | Aman     | 2026-10-10 |  25000 |
+|    102 | Rahul    | 2020-05-05 |  15000 |
++--------+----------+------------+--------+
+4 rows in set (0.001 sec)
+
+mysql> select max(salary) from emp;
++-------------+
+| max(salary) |
++-------------+
+|       35000 |
++-------------+
+1 row in set (0.003 sec)
+
+mysql> select * from emp where salary = (select max(salary) from emp);
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    101 | Ravi     | 2020-05-05 |  35000 |
++--------+----------+------------+--------+
+1 row in set (0.005 sec)
+
+mysql> select * from emp where salary = (select min(salary) from emp);
++--------+----------+------------+--------+
+| emp_id | emp_name | emp_doj    | salary |
++--------+----------+------------+--------+
+|    102 | Rahul    | 2020-05-05 |  15000 |
++--------+----------+------------+--------+
+1 row in set (0.001 sec)
+
+mysql> select count(*) from emp;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.011 sec)
+
+mysql> SELECT cOUnt(*) FROM emP;
++----------+
+| cOUnt(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.004 sec)
+
+mysql> 
+
+
+
+
