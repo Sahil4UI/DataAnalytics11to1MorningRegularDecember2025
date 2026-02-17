@@ -1,0 +1,259 @@
+Last login: Fri Feb 13 17:19:56 on console
+(base) sahil@MacBookAir ~ % mysql -u root    
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.4.0 Homebrew
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| assignments        |
+| company            |
+| information_schema |
+| joinDemo           |
+| mycompany          |
+| MYDB               |
+| mysql              |
+| ourcompany         |
+| performance_schema |
+| samyak             |
+| saurabh            |
+| school             |
+| student            |
+| sys                |
++--------------------+
+14 rows in set (0.066 sec)
+
+mysql> use school;
+Database changed
+mysql> show tables;
+Empty set (0.003 sec)
+
+mysql> use assignments
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_assignments |
++-----------------------+
+| Department            |
+| employee              |
++-----------------------+
+2 rows in set (0.002 sec)
+
+mysql> select * from employee;
++-------+---------------+--------+--------+------------+--------------+-------+
+| EmpID | EmpName       | Salary | DeptID | JoinDate   | Email        | bonus |
++-------+---------------+--------+--------+------------+--------------+-------+
+|   101 | Ravi Kumar    |  38500 |      1 | 2018-05-10 | NULL         |  NULL |
+|   102 | Priya Sharma  |  49500 |      2 | 2019-07-15 | @company.com |  NULL |
+|   104 | Neha Singh    |  60500 |      2 | 2017-03-12 | @company.com |  NULL |
+|   106 | Pooja Mehta   |  44000 |      1 | 2021-02-18 | NULL         |  NULL |
+|   107 | Sandeep Yadav |  66000 |      2 | 2015-09-25 | @company.com |  NULL |
+|   109 | Simran Kaur   |  55000 |      2 | 2019-12-05 | @company.com |  NULL |
++-------+---------------+--------+--------+------------+--------------+-------+
+6 rows in set (0.003 sec)
+
+mysql> alter table employee drop column bonus;
+Query OK, 0 rows affected (0.051 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------------+--------+--------+------------+--------------+
+| EmpID | EmpName       | Salary | DeptID | JoinDate   | Email        |
++-------+---------------+--------+--------+------------+--------------+
+|   101 | Ravi Kumar    |  38500 |      1 | 2018-05-10 | NULL         |
+|   102 | Priya Sharma  |  49500 |      2 | 2019-07-15 | @company.com |
+|   104 | Neha Singh    |  60500 |      2 | 2017-03-12 | @company.com |
+|   106 | Pooja Mehta   |  44000 |      1 | 2021-02-18 | NULL         |
+|   107 | Sandeep Yadav |  66000 |      2 | 2015-09-25 | @company.com |
+|   109 | Simran Kaur   |  55000 |      2 | 2019-12-05 | @company.com |
++-------+---------------+--------+--------+------------+--------------+
+6 rows in set (0.001 sec)
+
+mysql> select * from department;
++--------+-----------+-----------+
+| DeptID | DeptName  | Location  |
++--------+-----------+-----------+
+|      1 | HR        | Mumbai    |
+|      2 | IT        | Bangalore |
+|      3 | Sales     | Pune      |
+|      4 | Finance   | Delhi     |
+|      5 | Marketing | Chennai   |
++--------+-----------+-----------+
+5 rows in set (0.003 sec)
+
+mysql> mysql> select * from employee as e inner join department as d on e.deptId = d.deptID;
+ERROR 1054 (42S22): Unknown column 'd.dep' in 'on clause'
+mysql> 
+mysql> select * from employee as e inner join department as d on e.deptId = d.deptID;
++-------+---------------+--------+--------+------------+--------------+--------+----------+-----------+
+| EmpID | EmpName       | Salary | DeptID | JoinDate   | Email        | DeptID | DeptName | Location  |
++-------+---------------+--------+--------+------------+--------------+--------+----------+-----------+
+|   101 | Ravi Kumar    |  38500 |      1 | 2018-05-10 | NULL         |      1 | HR       | Mumbai    |
+|   102 | Priya Sharma  |  49500 |      2 | 2019-07-15 | @company.com |      2 | IT       | Bangalore |
+|   104 | Neha Singh    |  60500 |      2 | 2017-03-12 | @company.com |      2 | IT       | Bangalore |
+|   106 | Pooja Mehta   |  44000 |      1 | 2021-02-18 | NULL         |      1 | HR       | Mumbai    |
+|   107 | Sandeep Yadav |  66000 |      2 | 2015-09-25 | @company.com |      2 | IT       | Bangalore |
+|   109 | Simran Kaur   |  55000 |      2 | 2019-12-05 | @company.com |      2 | IT       | Bangalore |
++-------+---------------+--------+--------+------------+--------------+--------+----------+-----------+
+6 rows in set (0.001 sec)
+
+mysql> select empId,empName,salary , joinDate,e.deptId,email,deptName,location from employee as e inner join department as d on e.deptId = d.deptID;
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+| empId | empName       | salary | joinDate   | deptId | email        | deptName | location  |
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+|   101 | Ravi Kumar    |  38500 | 2018-05-10 |      1 | NULL         | HR       | Mumbai    |
+|   102 | Priya Sharma  |  49500 | 2019-07-15 |      2 | @company.com | IT       | Bangalore |
+|   104 | Neha Singh    |  60500 | 2017-03-12 |      2 | @company.com | IT       | Bangalore |
+|   106 | Pooja Mehta   |  44000 | 2021-02-18 |      1 | NULL         | HR       | Mumbai    |
+|   107 | Sandeep Yadav |  66000 | 2015-09-25 |      2 | @company.com | IT       | Bangalore |
+|   109 | Simran Kaur   |  55000 | 2019-12-05 |      2 | @company.com | IT       | Bangalore |
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+6 rows in set (0.001 sec)
+
+mysql> create table result as select empId,empName,salary , joinDate,e.deptId,email,deptName,location from employee as e inner join department as d on e.deptId = d.deptID;
+Query OK, 6 rows affected (0.018 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from result;
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+| empId | empName       | salary | joinDate   | deptId | email        | deptName | location  |
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+|   101 | Ravi Kumar    |  38500 | 2018-05-10 |      1 | NULL         | HR       | Mumbai    |
+|   102 | Priya Sharma  |  49500 | 2019-07-15 |      2 | @company.com | IT       | Bangalore |
+|   104 | Neha Singh    |  60500 | 2017-03-12 |      2 | @company.com | IT       | Bangalore |
+|   106 | Pooja Mehta   |  44000 | 2021-02-18 |      1 | NULL         | HR       | Mumbai    |
+|   107 | Sandeep Yadav |  66000 | 2015-09-25 |      2 | @company.com | IT       | Bangalore |
+|   109 | Simran Kaur   |  55000 | 2019-12-05 |      2 | @company.com | IT       | Bangalore |
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+6 rows in set (0.001 sec)
+
+mysql> show tables;
++-----------------------+
+| Tables_in_assignments |
++-----------------------+
+| Department            |
+| employee              |
+| result                |
++-----------------------+
+3 rows in set (0.014 sec)
+
+mysql> select * from result;
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+| empId | empName       | salary | joinDate   | deptId | email        | deptName | location  |
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+|   101 | Ravi Kumar    |  38500 | 2018-05-10 |      1 | NULL         | HR       | Mumbai    |
+|   102 | Priya Sharma  |  49500 | 2019-07-15 |      2 | @company.com | IT       | Bangalore |
+|   104 | Neha Singh    |  60500 | 2017-03-12 |      2 | @company.com | IT       | Bangalore |
+|   106 | Pooja Mehta   |  44000 | 2021-02-18 |      1 | NULL         | HR       | Mumbai    |
+|   107 | Sandeep Yadav |  66000 | 2015-09-25 |      2 | @company.com | IT       | Bangalore |
+|   109 | Simran Kaur   |  55000 | 2019-12-05 |      2 | @company.com | IT       | Bangalore |
++-------+---------------+--------+------------+--------+--------------+----------+-----------+
+6 rows in set (0.000 sec)
+
+mysql> select deptName,count(*) from result group by deptName;
++----------+----------+
+| deptName | count(*) |
++----------+----------+
+| HR       |        2 |
+| IT       |        4 |
++----------+----------+
+2 rows in set (0.003 sec)
+
+mysql> select deptName,count(*) from result group by deptName having deptName="HR" ;
++----------+----------+
+| deptName | count(*) |
++----------+----------+
+| HR       |        2 |
++----------+----------+
+1 row in set (0.002 sec)
+
+mysql> select empName from result;
++---------------+
+| empName       |
++---------------+
+| Ravi Kumar    |
+| Priya Sharma  |
+| Neha Singh    |
+| Pooja Mehta   |
+| Sandeep Yadav |
+| Simran Kaur   |
++---------------+
+6 rows in set (0.001 sec)
+
+mysql> select empName as "NAMES WITH S" from result;
++---------------+
+| NAMES WITH S  |
++---------------+
+| Ravi Kumar    |
+| Priya Sharma  |
+| Neha Singh    |
+| Pooja Mehta   |
+| Sandeep Yadav |
+| Simran Kaur   |
++---------------+
+6 rows in set (0.000 sec)
+
+mysql> select empName as "NAMES WITH S" from result where empName like "s%";
++---------------+
+| NAMES WITH S  |
++---------------+
+| Sandeep Yadav |
+| Simran Kaur   |
++---------------+
+2 rows in set (0.002 sec)
+
+mysql> select empName as "NAMES WITH S" from result where empName like "%a";
++--------------+
+| NAMES WITH S |
++--------------+
+| Priya Sharma |
+| Pooja Mehta  |
++--------------+
+2 rows in set (0.001 sec)
+
+mysql> select empName as "NAMES WITH S" from result where empName like "%a%";
++---------------+
+| NAMES WITH S  |
++---------------+
+| Ravi Kumar    |
+| Priya Sharma  |
+| Neha Singh    |
+| Pooja Mehta   |
+| Sandeep Yadav |
+| Simran Kaur   |
++---------------+
+6 rows in set (0.001 sec)
+
+mysql> select empName as "NAMES WITH S" from result where empName like "%i%";
++--------------+
+| NAMES WITH S |
++--------------+
+| Ravi Kumar   |
+| Priya Sharma |
+| Neha Singh   |
+| Simran Kaur  |
++--------------+
+4 rows in set (0.000 sec)
+
+mysql> select empName as "NAMES WITH S" from result where empName like "__i%";
++--------------+
+| NAMES WITH S |
++--------------+
+| Priya Sharma |
++--------------+
+1 row in set (0.001 sec)
+
+mysql> 
